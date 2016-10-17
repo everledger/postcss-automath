@@ -24,7 +24,6 @@
   "dependencies": {
     "mathjs": "^3.5.3",
     "postcss": "^5.2.4",
-    "postcss-message-helpers": "^2.0.0",
-    "reduce-function-call": "^1.0.1"
+    "postcss-message-helpers": "^2.0.0"
   }
 }
