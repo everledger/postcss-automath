@@ -67,7 +67,10 @@ module.exports = postcss.plugin('postcss-math', function () {
                 return;
             }
 
-            if (!node[nodeProp] || node[nodeProp].indexOf('resolve(') === -1) {
+            if (!node[nodeProp] // no value
+             || !node[nodeProp].match(/\d/) // no numbers
+             || !node[nodeProp].match(/\*|\+|\/|-|%/)   // no math
+             || node[nodeProp].match(/^\d+\w*%$/)) {    // exclude special case for single percentage values
                 return;
             }
 
