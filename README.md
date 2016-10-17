@@ -34,8 +34,13 @@ Contributions are very welcome!
 ## Usage
 
 ```js
-postcss([ require('postcss-math') ])
+postcss([ require('postcss-automath') ])
 ```
+
+For best results, add the plugin after any variable parsing, mixin processing or
+function handling plugins. Since `postcss-automath` works on the final numeric
+values of your CSS you need to process all variables, mixins and other dynamic
+data *beforehand*.
 
 See [PostCSS] docs for examples for your environment.
 
