@@ -74,9 +74,14 @@ module.exports = postcss.plugin('postcss-math', function () {
                 return;
             }
 
-            node[nodeProp] = helpers.try(function () {
-                return transformMath(node[nodeProp]);
-            }, node.source);
+            var computed;
+            try {
+                computed = transformMath(node[nodeProp]);
+                node[nodeProp] = computed;
+            } catch (e) {
+                // Silently discard Mathjs errors and leave the output alone.
+                // Important for ignoring generated classnames containing dashes.
+            }
         })
     };
 });
