@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/EverledgerIO/postcss-automath/issues"
   },
-  "homepage": "https://github.com/EverledgerIO/postcss-automath#readme"
+  "homepage": "https://github.com/EverledgerIO/postcss-automath#readme",
+  "dependencies": {
+    "mathjs": "^3.5.3",
+    "postcss": "^5.2.4",
+    "postcss-message-helpers": "^2.0.0",
+    "reduce-function-call": "^1.0.1"
+  }
 }
