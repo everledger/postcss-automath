@@ -1,6 +1,7 @@
 /**
  * PostCSS automatic mathjs plugin
  *
+ * @see https://github.com/less/less.js/blob/3.x/lib/less/render.js
  * @see https://github.com/shauns/postcss-math
  *
  * @package: postcss-automath
@@ -10,44 +11,26 @@
 
 var postcss = require('postcss');
 var helpers = require('postcss-message-helpers');
-var maths = require('mathjs');
+var less = require('less');
 
-var PREFIXES = maths.type.Unit.PREFIXES;
-var BASE_UNITS = maths.type.Unit.BASE_UNITS;
-
-BASE_UNITS.PIXELS = {
-    dimensions: [0, 1, 0, 0, 0, 0, 0, 0, 0],
-    key: 'PIXELS'
-};
-
-maths.type.Unit.UNITS.px = {
-    name: 'px',
-    base: BASE_UNITS.PIXELS,
-    prefixes: PREFIXES.NONE,
-    value: 1,
-    offset: 0,
-    dimensions: [0, 1, 0, 0, 0, 0, 0, 0, 0]
-};
-
-maths.type.Unit.prototype.strip = function() {
-    return this._denormalize(this.value);
-};
-
-function strip(value) {
-    return value.strip();
-}
-maths.import({
-    strip: strip
-});
+var lessParse = less.parse;
+var ParseTree = less.ParseTree;
 
 function transformMath(argString) {
-    var res = maths.eval(argString);
-    // Add previous splitted unit if any
-    var formatted = res.toString();
+    return new Promise(function(resolve, reject) {
+        lessParse('.c{p:' + argString + '}', {}, function(err, root, imports, options) {
+            if (err) { return reject(err); }
 
-    // Math.JS puts a space between numbers and units, drop it.
-    formatted = formatted.replace(/(.+) ([a-zA-Z]+)$/, '$1$2');
-    return formatted;
+            try {
+                var parseTree = new ParseTree(root, imports);
+                var result = parseTree.toCSS(options);
+
+                resolve(result.css.replace(/^\s*\.c\s*\{\s*p:\s*/gm, '').replace(/;\s*\}\s*$/gm, ''));
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
 }
 
 module.exports = postcss.plugin('postcss-math', function () {
@@ -74,14 +57,14 @@ module.exports = postcss.plugin('postcss-math', function () {
                 return;
             }
 
-            var computed;
-            try {
-                computed = transformMath(node[nodeProp]);
-                node[nodeProp] = computed;
-            } catch (e) {
-                // Silently discard Mathjs errors and leave the output alone.
-                // Important for ignoring generated classnames containing dashes.
-            }
+            return transformMath(node[nodeProp])
+                .then(function(computed) {
+                    node[nodeProp] = computed;
+                })
+                .catch(function(e) {
+                    // Silently discard Mathjs errors and leave the output alone.
+                    // Important for ignoring generated classnames containing dashes.
+                });
         })
     };
 });
