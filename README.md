@@ -1,24 +1,22 @@
 # PostCSS Auto-Math
 
+[PostCSS]: https://github.com/postcss/postcss
+
 ## Work-in-progress!
 
 [PostCSS] plugin for evaluating math expressions in your CSS sources.
 
+This plug-in uses the [LESS](http://lesscss.org/) parser internally, in an 
+(intentionally) very limited way- just to parse mathematical expressions. 
+As such, all unit handling mechanics are the same as in LESS.
 
-This plug-in supports:
-
-* Plain-old maths, as per math.js built-in functionality
-* `px` units
-* CSS-friendly rendering (`10cm` not `10 cm`)
-* Unit stripping e.g. `strip(25px)` becomes `25`
-
-Contributions are very welcome!
+If you want full LESS parsing functionality in your project, see 
+[postcss-less-engine](https://www.npmjs.com/package/postcss-less-engine).
 
 
 ```scss
 .foo {
     font-size: 2 * 8px;	
-    padding: strip(16cm) + (2px * 3);
     margin: 4px + 2 * 3px;
 }
 ```
@@ -26,7 +24,6 @@ Contributions are very welcome!
 ```css
 .foo {
     font-size: 16px;
-    padding: 22px;
     margin: 10px;
 }
 ```
@@ -55,3 +52,6 @@ up math.js so you have a wider range of things you can do.
 Those plugins want you to add non-standard function wrappers (the `resolve()` 
 function) around each expression you want evaluated. This module allows you
 to write normal math expressions you'd be used to from using SASS, SCSS or LESS.
+
+Since the variable handling is deferred to another plugin, you are free to use
+this module with SCSS, LESS, W3C or even your own custom syntax.
