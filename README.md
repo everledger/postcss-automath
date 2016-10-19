@@ -2,8 +2,6 @@
 
 [PostCSS]: https://github.com/postcss/postcss
 
-## Work-in-progress!
-
 [PostCSS] plugin for evaluating math expressions in your CSS sources.
 
 This plug-in uses the [LESS](http://lesscss.org/) parser internally, in an 
