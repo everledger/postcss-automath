@@ -13,7 +13,7 @@
   "keywords": [
     "PostCSS",
     "math",
-    "mathjs"
+    "LESS"
   ],
   "author": "Everledger.io",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/EverledgerIO/postcss-automath#readme",
   "dependencies": {
-    "mathjs": "^3.5.3",
+    "less": "^2.7.1",
     "postcss": "^5.2.4",
     "postcss-message-helpers": "^2.0.0"
   }
