@@ -42,8 +42,7 @@ See [PostCSS] docs for examples for your environment.
 ## How does this differ to `postcss-calc`?
 
 They're (deliberately) trying to work towards the calc(...) standard, so for 
-instance it doesn't support things like exponentials at the moment. This wraps 
-up math.js so you have a wider range of things you can do.
+instance it doesn't support things like exponentials at the moment.
 
 ## How does this differ to `postcss-math` & `postcss-mathjs`?
 
