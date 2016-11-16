@@ -53,6 +53,7 @@ module.exports = postcss.plugin('postcss-math', function () {
             if (!node[nodeProp] // no value
              || !node[nodeProp].match(/\d/) // no numbers
              || !node[nodeProp].match(/\*|\+|\/|-|%/)   // no math
+             || node[nodeProp].match(/^\s*calc\s*\(/)   // exclude in-browser calc() statements
              || node[nodeProp].match(/^\d+\w*%$/)) {    // exclude special case for single percentage values
                 return;
             }
